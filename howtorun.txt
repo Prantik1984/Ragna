@@ -1,0 +1,1 @@
+uvicorn processor:app --reload --port 8000
