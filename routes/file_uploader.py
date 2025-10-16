@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request,File, UploadFile
 from dotenv import load_dotenv
+from Processors.PdfProcessor import PdfProcessor
 import os
 router = APIRouter()
 
@@ -14,7 +15,9 @@ async def uploadPdf(request: Request, file: UploadFile = File(...)):
     file_path = os.path.join(upload_dir, file.filename)
     with open(file_path, "wb") as f:
         f.write(await file.read())
-    return {"status": "File Uploaded Successfully"}
+    pdf_processor = PdfProcessor()
+    pdf_text= pdf_processor.read_pdf(file_path)
+    return {"status": pdf_text}
 
 async def size_limit(request: Request, max_bytes: int):
     cl = request.headers.get("content-length")
