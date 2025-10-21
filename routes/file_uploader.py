@@ -17,7 +17,8 @@ async def uploadPdf(request: Request, file: UploadFile = File(...)):
         f.write(await file.read())
     pdf_processor = PdfProcessor()
     pdf_text= pdf_processor.read_pdf(file_path)
-    return {"status": pdf_text}
+    pdf_chunks=pdf_processor.create_chunks(pdf_text,file_path)
+    return {"status": pdf_chunks}
 
 async def size_limit(request: Request, max_bytes: int):
     cl = request.headers.get("content-length")
