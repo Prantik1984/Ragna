@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 class LLMModel:
     def __init__(self):
+        load_dotenv()
         self.client = Client(host=os.getenv("OllamaUrl"))
         self.model_name=os.getenv("OllamaAiLLMModel")
 
@@ -11,5 +12,4 @@ class LLMModel:
             model=self.model_name,
             messages=messages,
         )
-
         return response["message"]["content"]
