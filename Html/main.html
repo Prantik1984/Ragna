@@ -78,11 +78,31 @@
             class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center text-gray-500 hover:border-indigo-400 hover:bg-indigo-50 transition cursor-pointer">
             <p class="text-lg mb-2">📤 Drag & Drop your files here</p>
             <p class="text-sm">or click to browse</p>
-            <input id="fileInput" type="file" multiple class="hidden" />
+            <input id="fileInput" type="file" accept="application/pdf" class="hidden" />
           </div>
+          <button id="uploadBtn"
+        class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition">
+  Upload File
+</button>
 
-          <!-- Uploaded Files List -->
-          <ul id="fileList" class="mt-6 space-y-2 text-gray-700 text-sm"></ul>
+<div id="dialog"
+class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+<div class="bg-white rounded-lg shadow-xl p-6 w-80 text-center">
+<h2 id="dialogTitle" class="text-xl font-semibold mb-2"></h2>
+<p id="dialogMessage" class="text-gray-600 mb-4"></p>
+<button id="dialogClose"
+       class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition">
+ OK
+</button>
+</div>
+
+<div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40 flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-xl p-6 w-72 text-center">
+    <img src="/assets/processing.gif" alt="Uploading..." class="mx-auto mb-3 w-12 h-12">
+    <p class="text-sm text-gray-700">Uploading… please wait</p>
+  </div>
+</div>
+</div>
         </div>
       </div>
     </div>
