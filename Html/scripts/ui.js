@@ -4,21 +4,20 @@ const uploadButton = document.getElementById('uploadBtn');
 const dialog = document.getElementById('dialog');
 const apiUrl="http://127.0.0.1:9000"
 const loadingOverlay = document.getElementById('loadingOverlay');
-
-function setLoading(isLoading) {
+function showLoading(isLoading) {
   loadingOverlay.classList.toggle('hidden', !isLoading);
-  uploadBtn.disabled = isLoading;
+  uploadButton.disabled = isLoading;
   dropZone.classList.toggle('opacity-60', isLoading);
   dropZone.style.pointerEvents = isLoading ? 'none' : 'auto';
 }
 
 function showDialog(title, message, isError = false) {
-  // dialogTitle.textContent = title;
-  // dialogMessage.textContent = message;
+  dialogTitle.textContent = title;
+  dialogMessage.textContent = message;
 
-  // // Color style based on error/success
-  // dialogTitle.className = isError ? 'text-red-600 text-xl font-semibold mb-2'
-  //                                 : 'text-green-600 text-xl font-semibold mb-2';
+  // Color style based on error/success
+  dialogTitle.className = isError ? 'text-red-600 text-xl font-semibold mb-2'
+                                  : 'text-green-600 text-xl font-semibold mb-2';
 
   dialog.classList.remove('hidden');
 }
@@ -39,26 +38,81 @@ dropZone.addEventListener('click', () => fileInput.click());
 
 uploadButton.addEventListener('click',async()=>{
   const files = fileInput.files;
+  
   if (!files.length) {
     
     return;
   }
-
+  
   var uploadableFile=files[0];
-
+  
   const formData = new FormData();
   formData.append('file', uploadableFile, uploadableFile.name);
-  setLoading(true);
+  showLoading(true);
   try
   {
     const response = await fetch(apiUrl+'/upload/pdfs', {
       method: 'POST',
       body: formData
     });
-   // setLoading(false);
+    showLoading(false);
   }
   catch (error) {
-     // setLoading(false);
-      showDialog("","");
+      console.log(error);
+      showLoading(false);
+      showDialog("Error uploading file",error,true);
   }
 });
+
+function showUploadedDocuments()
+{
+  const list = document.getElementById('uploadedDocsList');
+  list.innerHTML = '';
+  const docs = loadDocs();
+  docs.forEach(d => list.appendChild(addUploadedDocument(d)));
+}
+
+function loadDocs() {
+  var docs=['1.pdf','2.pdf'];
+  return docs;
+  // try { return JSON.parse(localStorage.getItem(DOCS_KEY)) || []; }
+  // catch { return []; }
+}
+
+function addUploadedDocument(doc)
+{
+  const wrapper = document.createElement('div');
+  wrapper.className = 'flex items-center gap-2 bg-white/10 rounded-md px-2 py-2';
+
+  const left = document.createElement('label');
+  left.className = 'flex items-center gap-2 flex-1 cursor-pointer select-none min-w-0';
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.className = 'h-4 w-4 rounded';
+  //cb.checked = !!doc.checked;
+  cb.addEventListener('change', () => {
+   // updateDoc(doc.id, { checked: cb.checked });
+  });
+  const name = document.createElement('span');
+  name.className = 'truncate';
+  //name.title = doc.name;
+  //name.textContent = doc.name;
+  left.appendChild(cb);
+  left.appendChild(name);
+
+  const del = document.createElement('button');
+  del.type = 'button';
+  del.className = 'shrink-0 text-white/80 hover:text-white rounded px-2';
+  del.setAttribute('aria-label', `Delete ${doc.name}`);
+  del.innerHTML = '&times;';
+  del.addEventListener('click', async () => {
+    // OPTIONAL: call your backend to delete, e.g.:
+    // await fetch(`http://127.0.0.1:9000/upload/pdfs/${encodeURIComponent(doc.id)}`, { method: 'DELETE' });
+
+   // removeDoc(doc.id);
+  });
+
+  wrapper.appendChild(left);
+  wrapper.appendChild(del);
+  return wrapper;
+}

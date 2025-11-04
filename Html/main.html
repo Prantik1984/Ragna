@@ -57,9 +57,15 @@
       <nav class="flex-1 p-4 space-y-3">
         <button onclick="showSection('home')" class="block w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-500 transition">🏠 Home</button>
         <button onclick="showSection('documents')" class="block w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-500 transition">📁 Documents</button>
+        <div class="mt-2 ml-6 space-y-2" id="uploadedDocsListContainer">
+          <div id="uploadedDocsList" class="space-y-1 max-h-48 overflow-auto pr-1">
+            <!-- JS will inject file checkboxes here -->
+          </div>
+        </div>
         <button onclick="showSection('settings')" class="block w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-500 transition">⚙️ Settings</button>
         <button onclick="showSection('help')" class="block w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-500 transition">❓ Help</button>
       </nav>
+      
       <div class="p-4 border-t border-indigo-400 text-sm text-center">
         © 2025 Ragna
       </div>
@@ -85,27 +91,21 @@
   Upload File
 </button>
 
-<div id="dialog"
-class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
-<div class="bg-white rounded-lg shadow-xl p-6 w-80 text-center">
-<h2 id="dialogTitle" class="text-xl font-semibold mb-2"></h2>
-<p id="dialogMessage" class="text-gray-600 mb-4"></p>
-<button id="dialogClose"
-       class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition">
- OK
-</button>
+<div id="dialog" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-white rounded-lg shadow-xl p-6 w-80 text-center">
+    <h2 id="dialogTitle" class="text-xl font-semibold mb-2"></h2>
+    <p id="dialogMessage" class="text-gray-600 mb-4"></p>
+    <button id="dialogClose" type="button" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition">OK</button>
+  </div>
 </div>
 
-<div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40 flex items-center justify-center">
+<!-- Loading overlay (sibling, start hidden) -->
+<div id="loadingOverlay" class="fixed inset-0 hidden bg-black bg-opacity-40 z-40 flex items-center justify-center">
   <div class="bg-white rounded-lg shadow-xl p-6 w-72 text-center">
-    <img src="/assets/processing.gif" alt="Uploading..." class="mx-auto mb-3 w-12 h-12">
+    <img src="assets/processing.gif" alt="Uploading..." class="mx-auto mb-3 w-12 h-12">
     <p class="text-sm text-gray-700">Uploading… please wait</p>
   </div>
 </div>
-</div>
-        </div>
-      </div>
-    </div>
 
 </body>
 <script src="scripts/ui.js"></script>
