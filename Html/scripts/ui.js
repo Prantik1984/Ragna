@@ -27,7 +27,7 @@ dialogClose.addEventListener('click', () => {
 });
 
 function showSection(id) {
-  document.querySelectorAll('#home, #documents, #settings, #help')
+  document.querySelectorAll('#home, #documents, #settings, #help, #querry')
     .forEach(el => el.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
@@ -105,6 +105,7 @@ function addUploadedDocument(doc)
   cb.setAttribute('name', `UploadedDocs`);
   cb.addEventListener('change', () => {
     console.log('Selected:', doc);
+    showSection('querry');
   });
 
   const name = document.createElement('span');
