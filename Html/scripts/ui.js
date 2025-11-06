@@ -55,7 +55,18 @@ uploadButton.addEventListener('click',async()=>{
       method: 'POST',
       body: formData
     });
+    const json = await response.json();
     showLoading(false);
+    if (json["uploaded"]==true)
+    {
+      showUploadedDocuments(json["id"]);
+    }
+    else
+    {
+      showDialog("Error uploading file",error,true);
+    }
+    
+    
   }
   catch (error) {
       console.log(error);
@@ -64,12 +75,13 @@ uploadButton.addEventListener('click',async()=>{
   }
 });
 
-function showUploadedDocuments()
+function showUploadedDocuments(id)
 {
   const list = document.getElementById('uploadedDocsList');
-  list.innerHTML = '';
-  const docs = loadDocs();
-  docs.forEach(d => list.appendChild(addUploadedDocument(d)));
+  list.appendChild(addUploadedDocument(id));
+  // list.innerHTML = '';
+  // const docs = loadDocs();
+  // docs.forEach(d => list.appendChild(addUploadedDocument(d)));
 }
 
 function loadDocs() {
@@ -86,33 +98,55 @@ function addUploadedDocument(doc)
 
   const left = document.createElement('label');
   left.className = 'flex items-center gap-2 flex-1 cursor-pointer select-none min-w-0';
+
   const cb = document.createElement('input');
-  cb.type = 'checkbox';
+  cb.type = 'radio';
   cb.className = 'h-4 w-4 rounded';
-  //cb.checked = !!doc.checked;
+  cb.setAttribute('name', `UploadedDocs`);
   cb.addEventListener('change', () => {
-   // updateDoc(doc.id, { checked: cb.checked });
+    console.log('Selected:', doc);
   });
+
   const name = document.createElement('span');
   name.className = 'truncate';
-  //name.title = doc.name;
-  //name.textContent = doc.name;
-  left.appendChild(cb);
-  left.appendChild(name);
+  name.title=name.textContent = doc;
 
   const del = document.createElement('button');
   del.type = 'button';
   del.className = 'shrink-0 text-white/80 hover:text-white rounded px-2';
-  del.setAttribute('aria-label', `Delete ${doc.name}`);
+  del.setAttribute('aria-label', `Delete ${doc}`);
   del.innerHTML = '&times;';
-  del.addEventListener('click', async () => {
-    // OPTIONAL: call your backend to delete, e.g.:
-    // await fetch(`http://127.0.0.1:9000/upload/pdfs/${encodeURIComponent(doc.id)}`, { method: 'DELETE' });
+  
+  
 
-   // removeDoc(doc.id);
-  });
-
+  left.appendChild(cb)
+  left.appendChild(name);
   wrapper.appendChild(left);
   wrapper.appendChild(del);
+  // //cb.checked = !!doc.checked;
+  // cb.addEventListener('change', () => {
+  //  // updateDoc(doc.id, { checked: cb.checked });
+  // });
+  // const name = document.createElement('span');
+  // name.className = 'truncate';
+  // name.title = doc;
+  // name.textContent = doc;
+  // left.appendChild(cb);
+  // left.appendChild(name);
+
+  // const del = document.createElement('button');
+  // del.type = 'button';
+  // del.className = 'shrink-0 text-white/80 hover:text-white rounded px-2';
+  // del.setAttribute('aria-label', `Delete ${doc}`);
+  // del.innerHTML = '&times;';
+  // del.addEventListener('click', async () => {
+  //   // OPTIONAL: call your backend to delete, e.g.:
+  //   // await fetch(`http://127.0.0.1:9000/upload/pdfs/${encodeURIComponent(doc.id)}`, { method: 'DELETE' });
+
+  //  // removeDoc(doc.id);
+  // });
+
+  // wrapper.appendChild(left);
+  // wrapper.appendChild(del);
   return wrapper;
 }
