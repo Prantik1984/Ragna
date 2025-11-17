@@ -68,20 +68,7 @@
     Turn your documents into a smart, searchable knowledge base — in seconds.
   </p>
 
-        <!-- <ul class="feature-list">
-          <li>Document uploading</li>
-          <li>Question answering</li>
-          <li>Citations</li>
-        </ul>
-
-        <section class="card upload-card">
-          <h2 class="section-title">Upload Document</h2>
-
-          <div class="dropzone">
-            <div class="dropzone-icon">⬆</div>
-            <p class="dropzone-text">Drop your document here, or click to upload</p>
-            <p class="dropzone-subtext">PDF, DOCX or TXT up to 25 MB</p>
-          </div>
+        <!-- 
 
           <div class="examples">
             <div class="examples-header">Example questions</div>
@@ -122,14 +109,54 @@
       </section>
 
       <!-- Other pages just as placeholders -->
-      <section class="page" ng-show="vm.activePage === 'upload'">
-        <h1 class="page-title">Upload Document</h1>
-        <p>Upload page content goes here.</p>
+      <section class="page card upload-card" ng-show="vm.activePage === 'upload'">
+        <h2 class="section-title">Upload Document</h2>
+        <div class="dropzone"
+        ng-drag-over="$event.preventDefault()"
+        ng-drop="vm.handleDrop($dataTransfer)"
+        ng-click="vm.selectFile()">
+            <div class="dropzone-icon">⬆</div>
+            <p class="dropzone-text">Drop your document here, or click to upload</p>
+            <p class="dropzone-subtext">PDF 25 MB</p>
+          </div>
+
+        <input type="file"
+           id="fileInput"
+           style="display:none"
+           accept=".pdf"
+           />
+
+          <button class="upload-btn" ng-click="vm.selectFile()">
+        📤 Choose File to Upload
+    </button>
+    <button class="upload-btn" >
+        📤 Upload Document
+    </button>
       </section>
 
       <section class="page" ng-show="vm.activePage === 'chat'">
         <h1 class="page-title">Chat</h1>
-        <p>Chat page content goes here.</p>
+        <div class="chat-window">
+
+        <!-- Loop through all messages -->
+        <div class="chat-message"
+             ng-repeat="msg in vm.messages track by $index"
+             ng-class="{'from-user': msg.type === 'user', 'from-ai': msg.type === 'ai'}">
+
+            {{ msg.text }}
+        </div>
+    </div>
+        <div class="ask-row">
+            <input
+              type="text"
+              class="question-input"
+              placeholder="Type your question..."
+              ng-model="vm.currentQuestion"
+            />
+            <button class="primary-btn" ng-click="vm.ask()">
+              Ask a question
+            </button>
+          </div>
       </section>
 
       <section class="page" ng-show="vm.activePage === 'settings'">

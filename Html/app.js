@@ -14,6 +14,10 @@
         { id: "settings", label: "Settings", icon: "⚙️" }
       ];
 
+      vm.selectFile = function () {
+    document.getElementById("fileInput").click();
+};
+
       vm.exampleQuestions = [
         "What is the project timeline?",
         "Who are the key stakeholders?",
