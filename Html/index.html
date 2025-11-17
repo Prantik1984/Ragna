@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ragApp">
+<head>
+  <meta charset="UTF-8" />
+  <title>RAG System</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body ng-controller="MainCtrl as vm">
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-row">
+        <div class="logo-grid">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <span class="logo-text">RAG System</span>
+      </div>
+
+      <nav class="nav">
+        <button
+          class="nav-item"
+          ng-class="{ active: item.id === vm.activePage }"
+          ng-repeat="item in vm.navItems"
+          ng-click="vm.setActive(item.id)"
+        >
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="upgrade-btn">Upgrade</button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+      <!-- Home / Document Q&A -->
+      <section class="page" ng-show="vm.activePage === 'home'">
+        <h1 class="page-title">Document Q&amp;A</h1>
+
+        <ul class="feature-list">
+          <li>Document uploading</li>
+          <li>Question answering</li>
+          <li>Citations</li>
+        </ul>
+
+        <section class="card upload-card">
+          <h2 class="section-title">Upload Document</h2>
+
+          <div class="dropzone">
+            <div class="dropzone-icon">⬆</div>
+            <p class="dropzone-text">Drop your document here, or click to upload</p>
+            <p class="dropzone-subtext">PDF, DOCX or TXT up to 25 MB</p>
+          </div>
+
+          <div class="examples">
+            <div class="examples-header">Example questions</div>
+            <div class="chips">
+              <button
+                class="chip"
+                ng-repeat="q in vm.exampleQuestions"
+                ng-click="vm.exampleClick(q)"
+              >
+                {{ q }}
+              </button>
+            </div>
+          </div>
+
+          <div class="ask-row">
+            <input
+              type="text"
+              class="question-input"
+              placeholder="Type your question..."
+              ng-model="vm.currentQuestion"
+            />
+            <button class="primary-btn" ng-click="vm.ask()">
+              Ask a question
+            </button>
+          </div>
+        </section>
+
+        <section class="recent-docs">
+          <h2 class="section-title">Recent Documents</h2>
+          <div class="doc-list">
+            <div class="doc-card" ng-repeat="doc in vm.recentDocuments">
+              <div class="doc-name">{{ doc.name }}</div>
+              <div class="doc-date">{{ doc.date }}</div>
+              <div class="doc-meta">{{ doc.citations }} citations</div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Other pages just as placeholders -->
+      <section class="page" ng-show="vm.activePage === 'upload'">
+        <h1 class="page-title">Upload Document</h1>
+        <p>Upload page content goes here.</p>
+      </section>
+
+      <section class="page" ng-show="vm.activePage === 'chat'">
+        <h1 class="page-title">Chat</h1>
+        <p>Chat page content goes here.</p>
+      </section>
+
+      <section class="page" ng-show="vm.activePage === 'settings'">
+        <h1 class="page-title">Settings</h1>
+        <p>Settings page content goes here.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
