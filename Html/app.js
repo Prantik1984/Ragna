@@ -5,9 +5,8 @@
     .module("ragApp", [])
     .controller("MainCtrl", function () {
       var vm = this;
-
       vm.activePage = "home";
-
+      vm.AppName="Ragna";
       vm.navItems = [
         { id: "home", label: "Home", icon: "🏠" },
         { id: "upload", label: "Upload Document", icon: "📤" },

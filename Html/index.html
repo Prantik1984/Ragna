@@ -2,7 +2,7 @@
 <html lang="en" ng-app="ragApp">
 <head>
   <meta charset="UTF-8" />
-  <title>RAG System</title>
+  <title>RAGNA</title>
 
   <link rel="stylesheet" href="styles.css" />
 
@@ -20,7 +20,7 @@
           <span></span><span></span><span></span>
           <span></span><span></span><span></span>
         </div>
-        <span class="logo-text">RAG System</span>
+        <span class="logo-text" id="app-name">{{vm.AppName}}</span>
       </div>
 
       <nav class="nav">
@@ -44,9 +44,31 @@
     <main class="content">
       <!-- Home / Document Q&A -->
       <section class="page" ng-show="vm.activePage === 'home'">
-        <h1 class="page-title">Document Q&amp;A</h1>
+        <h1 class="page-title">Understand Your Documents Instantly</h1>
 
-        <ul class="feature-list">
+        <p class="text-lg mb-4">
+    Upload any PDF and get clear, accurate answers in seconds.
+    Our intelligent system reads your files, extracts important information, and responds as if you're talking to an expert.
+  </p>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-3">No More Searching Through Pages</h3>
+  <p class="text-lg mb-4">
+    Forget scrolling or manually checking long documents. Just ask a question — the system finds the right information,
+    analyzes it, and delivers a direct, concise answer.
+  </p>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-3">Fast, Simple, and Powerful</h3>
+  <p class="text-lg mb-6">
+    1. Upload your files<br>
+    2. Ask a question<br>
+    3. Get instant insights
+  </p>
+
+  <p class="text-xl font-semibold text-indigo-700">
+    Turn your documents into a smart, searchable knowledge base — in seconds.
+  </p>
+
+        <!-- <ul class="feature-list">
           <li>Document uploading</li>
           <li>Question answering</li>
           <li>Citations</li>
@@ -96,7 +118,7 @@
               <div class="doc-meta">{{ doc.citations }} citations</div>
             </div>
           </div>
-        </section>
+        </section> -->
       </section>
 
       <!-- Other pages just as placeholders -->
