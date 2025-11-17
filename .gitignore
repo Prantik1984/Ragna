@@ -6,6 +6,7 @@
 /.vs/Ragna/FileContentIndex
 /.vs
 /.idea
+/.venv
 /__pycache__
 /routes/__pycache__
 /Processors/__pycache__
