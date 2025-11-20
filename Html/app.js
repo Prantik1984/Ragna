@@ -3,10 +3,13 @@
 
   angular
     .module("ragApp", [])
-    .controller("MainCtrl", function () {
+    .controller("MainCtrl", ["$scope", "$timeout", function ($scope, $timeout) {
       var vm = this;
+
       vm.activePage = "home";
-      vm.AppName="Ragna";
+      vm.AppName = "Ragna";
+      vm.selectedFile = null;
+
       vm.navItems = [
         { id: "home", label: "Home", icon: "🏠" },
         { id: "upload", label: "Upload Document", icon: "📤" },
@@ -14,9 +17,40 @@
         { id: "settings", label: "Settings", icon: "⚙️" }
       ];
 
+      // Open file picker
       vm.selectFile = function () {
-    document.getElementById("fileInput").click();
-};
+        var input = document.getElementById("fileInput");
+        if (input) {
+          input.click();
+        }
+      };
+
+      // Called when user clicks Upload
+      vm.uploadFile = function () {
+        if (!vm.selectedFile) {
+          alert("Please select a file first.");
+          return;
+        }
+        console.log("Uploading:", vm.selectedFile.name);
+        // TODO: your actual upload logic here
+      };
+
+      // Attach change handler AFTER DOM is ready
+      $timeout(function () {
+        var input = document.getElementById("fileInput");
+        if (!input) return;
+
+        input.addEventListener("change", function (event) {
+          var file = event.target.files[0];
+          if (file) {
+            // Use $scope.$apply so Angular updates bindings
+            $scope.$apply(function () {
+              vm.selectedFile = file;
+              console.log("Selected file:", file.name);
+            });
+          }
+        });
+      });
 
       vm.exampleQuestions = [
         "What is the project timeline?",
@@ -45,5 +79,5 @@
         }
         alert("Question submitted: " + vm.currentQuestion);
       };
-    });
+    }]);
 })();

@@ -284,3 +284,9 @@ body {
     background-color: #4338ca;
 }
 
+.upload-btn.disabled,
+.upload-btn:disabled {
+    background-color: #9ca3af !important; /* gray */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
