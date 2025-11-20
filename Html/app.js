@@ -3,7 +3,7 @@
 
   angular
     .module("ragApp", [])
-    .controller("MainCtrl", ["$scope", "$timeout", function ($scope, $timeout) {
+    .controller("MainCtrl", ["$scope", "$timeout","$http", function ($scope, $timeout,$http) {
       var vm = this;
 
       vm.activePage = "home";
@@ -28,11 +28,22 @@
       // Called when user clicks Upload
       vm.uploadFile = function () {
         if (!vm.selectedFile) {
-          alert("Please select a file first.");
+          console.log("Please select a file first.");
           return;
         }
-        console.log("Uploading:", vm.selectedFile.name);
-        // TODO: your actual upload logic here
+        
+        var formData = new FormData();
+        formData.append("file", vm.selectedFile, vm.selectedFile.name);
+        $http.post("http://127.0.0.1:9000/upload/pdfs", formData, {
+    transformRequest: angular.identity,   
+    headers: { "Content-Type": undefined } 
+  })
+  .then(function (response) {
+    console.log("Upload success:", response.data);
+  })
+  .catch(function (error) {
+    console.error("Upload error:", error);
+  });
       };
 
       // Attach change handler AFTER DOM is ready
@@ -46,7 +57,6 @@
             // Use $scope.$apply so Angular updates bindings
             $scope.$apply(function () {
               vm.selectedFile = file;
-              console.log("Selected file:", file.name);
             });
           }
         });

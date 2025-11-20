@@ -10,7 +10,6 @@ router = APIRouter()
 async def uploadPdf(request: Request, file: UploadFile = File(...)):
     try:
         load_dotenv()
-
         max_upload_size = int(os.getenv("Max_Upload_size"))* 1024 * 1024
         await size_limit(request, max_upload_size)
         data: bytes = await file.read()
