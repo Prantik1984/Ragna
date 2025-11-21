@@ -135,7 +135,7 @@
       </section>
 
       <section class="page" ng-show="vm.activePage === 'chat'">
-        <h1 class="page-title">Chat</h1>
+        <h1 class="page-title">Chat with {{vm.chatdocument}}</h1>
         <div class="chat-window">
 
         <!-- Loop through all messages -->
@@ -165,5 +165,17 @@
       </section>
     </main>
   </div>
+
+  <div class="overlay" ng-show="vm.isUploading || vm.errorMessage">
+    <div ng-if="vm.isUploading">
+        <div class="spinner-large"></div>
+        <p class="loading-text">Uploading...</p>
+    </div>
+    <div ng-if="vm.errorMessage" class="error-box">
+        <div class="error-header">⚠️ Error</div>
+        <p>{{ vm.errorMessage }}</p>
+        <button class="error-close-btn" ng-click="vm.errorMessage = ''">Close</button>
+    </div>
+</div>
 </body>
 </html>

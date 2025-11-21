@@ -9,6 +9,9 @@
       vm.activePage = "home";
       vm.AppName = "Ragna";
       vm.selectedFile = null;
+      vm.errorMessage=null;
+      vm.isUploading=false;
+      vm.chatdocument="";
 
       vm.navItems = [
         { id: "home", label: "Home", icon: "🏠" },
@@ -32,6 +35,7 @@
           return;
         }
         
+        vm.isUploading=true;
         var formData = new FormData();
         formData.append("file", vm.selectedFile, vm.selectedFile.name);
         $http.post("http://127.0.0.1:9000/upload/pdfs", formData, {
@@ -39,10 +43,24 @@
     headers: { "Content-Type": undefined } 
   })
   .then(function (response) {
-    console.log("Upload success:", response.data);
+    vm.isUploading=false;
+    if(response.data.uploaded==true)
+    {
+      console.log("Uploadeddd");
+      console.log("Upload success:", response.data);
+      vm.setActive("chat");
+      vm.chatdocument=response.data.id;
+    }
+    else
+    {
+      vm.errorMessage=response.data.error;
+    }
+    
   })
   .catch(function (error) {
-    console.error("Upload error:", error);
+    vm.isUploading=false;
+    vm.errorMessage=error;
+    console.log(error);
   });
       };
 
