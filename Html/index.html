@@ -136,16 +136,7 @@
 
       <section class="page" ng-show="vm.activePage === 'chat'">
         <h1 class="page-title">Chat with {{vm.chatdocument}}</h1>
-        <div class="chat-window">
-
-        <!-- Loop through all messages -->
-        <div class="chat-message"
-             ng-repeat="msg in vm.messages track by $index"
-             ng-class="{'from-user': msg.type === 'user', 'from-ai': msg.type === 'ai'}">
-
-            {{ msg.text }}
-        </div>
-    </div>
+        
         <div class="ask-row">
             <input
               type="text"
@@ -157,6 +148,15 @@
               Ask a question
             </button>
           </div>
+
+          <div class="chat-window">
+
+        <!-- Loop through all messages -->
+        <div class="chat-message chat-message.from-ai">
+
+            {{ vm.chatResult }}
+        </div>
+    </div>
       </section>
 
       <section class="page" ng-show="vm.activePage === 'settings'">
@@ -169,7 +169,7 @@
   <div class="overlay" ng-show="vm.isUploading || vm.errorMessage">
     <div ng-if="vm.isUploading">
         <div class="spinner-large"></div>
-        <p class="loading-text">Uploading...</p>
+        <p class="loading-text">{{vm.loadingMessage}}</p>
     </div>
     <div ng-if="vm.errorMessage" class="error-box">
         <div class="error-header">⚠️ Error</div>

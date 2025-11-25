@@ -11,3 +11,13 @@ async def querydocument(
     chroma_processor = ChromaProcessor()
     results=chroma_processor.QueryDb(question,document)
     return  results
+
+@router.get("/listdocuments")
+
+async def listdocuments():
+    """"
+    List all documents in the db
+    """
+    chroma_processor = ChromaProcessor()
+    results=chroma_processor.get_all_documents()
+    return results

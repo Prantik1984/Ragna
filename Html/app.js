@@ -12,6 +12,8 @@
       vm.errorMessage=null;
       vm.isUploading=false;
       vm.chatdocument="";
+      vm.chatResult="";
+      vm.loadingMessage="";
 
       vm.navItems = [
         { id: "home", label: "Home", icon: "🏠" },
@@ -36,6 +38,7 @@
         }
         
         vm.isUploading=true;
+        vm.loadingMessage="Uploading...";
         var formData = new FormData();
         formData.append("file", vm.selectedFile, vm.selectedFile.name);
         $http.post("http://127.0.0.1:9000/upload/pdfs", formData, {
@@ -102,10 +105,28 @@
 
       vm.ask = function () {
         if (!vm.currentQuestion) {
-          alert("Please type or choose a question first.");
+          vm.errorMessage="Enter a question in the field";
           return;
         }
-        alert("Question submitted: " + vm.currentQuestion);
+        
+        var payload = {
+    document: vm.chatdocument+".pdf",
+    question: vm.currentQuestion
+  };
+  vm.isUploading=true;
+  vm.loadingMessage="Fetching answer...";
+  $http.post("http://127.0.0.1:9000/querydocument", payload)
+    .then(function (response) {
+      vm.isUploading=false;
+      vm.chatResult=response.data;
+    })
+    .catch(function (error) {
+      vm.isUploading=false;
+      vm.errorMessage=error;
+      console.error("Error:", error);
+    });
       };
+
+      
     }]);
 })();

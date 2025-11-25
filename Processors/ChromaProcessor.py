@@ -7,11 +7,27 @@ from sentence_transformers import quantize_embeddings
 
 from Models.LLMModel import LLMModel
 class ChromaProcessor:
+
+    def __init__(self):
+        load_dotenv()
+        self.db_name = os.getenv("DB_NAME")
+        self.db_path = os.getenv("DB_PATH")
+        self.model_name = os.getenv("MODEL_NAME")
+
+    def get_all_documents(self):
+        client = chromadb.PersistentClient(path=self.db_path)
+        collection = client.get_collection(self.db_name)
+        results = collection.get(include=["metadatas"])
+        unique_sources = list({meta["source"] for meta in results["metadatas"] if "source" in meta})
+        print(unique_sources)
+        return self.db_name
+
+
     def SaveToDb(self,chunks,filename):
-        PERSIST_DIR = "./pdf_store"
+        PERSIST_DIR = self.db_path
         client = chromadb.PersistentClient(path=PERSIST_DIR)
         embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
+            model_name="llama3.2"
         )
         collection=client.get_or_create_collection(
             name="pdf_uploads",
@@ -30,10 +46,10 @@ class ChromaProcessor:
 
     def QueryDb(self,query,document):
 
-        PERSIST_DIR = "./pdf_store"
+        PERSIST_DIR = self.db_path
         client = chromadb.PersistentClient(path=PERSIST_DIR)
         embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
+            model_name="llama3.2"
 
         )
         collection = client.get_collection(
