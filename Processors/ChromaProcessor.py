@@ -15,12 +15,14 @@ class ChromaProcessor:
         self.model_name = os.getenv("MODEL_NAME")
 
     def get_all_documents(self):
-        client = chromadb.PersistentClient(path=self.db_path)
-        collection = client.get_collection(self.db_name)
-        results = collection.get(include=["metadatas"])
-        unique_sources = list({meta["source"] for meta in results["metadatas"] if "source" in meta})
-        print(unique_sources)
-        return self.db_name
+        try:
+            client = chromadb.PersistentClient(path=self.db_path)
+            collection = client.get_collection(self.db_name)
+            results = collection.get(include=["metadatas"])
+            unique_sources = list({meta["source"] for meta in results["metadatas"] if "source" in meta})
+            return {"Error": "","Sources":unique_sources}
+        except Exception as e:
+            return {"Error": str(e),"Sources":None}
 
 
     def SaveToDb(self,chunks,filename):

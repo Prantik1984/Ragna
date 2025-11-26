@@ -370,3 +370,50 @@ body {
   border: 1px solid #ddd;
   border-radius: 12px;
 }
+
+/* File list container styled like other cards */
+.file-list-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 22px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  margin-top: 20px;
+}
+
+/* Each row representing a file */
+.file-row {
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.file-row:last-child {
+  border-bottom: none;
+}
+
+/* The checkbox + the text are aligned horizontally */
+.file-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;          /* spacing between checkbox and text */
+  cursor: pointer;
+}
+
+/* Text section on the right */
+.file-info {
+  display: flex;
+  flex-direction: column;  /* filename above size */
+  justify-content: center;
+}
+
+/* Filename styling */
+.file-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* File size styling */
+.file-size {
+  font-size:
+
+

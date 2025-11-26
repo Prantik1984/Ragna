@@ -135,8 +135,24 @@
       </section>
 
       <section class="page" ng-show="vm.activePage === 'chat'">
-        <h1 class="page-title">Chat with {{vm.chatdocument}}</h1>
+        <h1 class="page-title">Chat</h1>
         
+        <div class="file-list-container">
+          <h3 class="section-title">Select Files to bring in context</h3>
+
+          <div class="file-row" ng-repeat="file in vm.uploadedFiles">
+<label class="file-checkbox-row">
+  <input type="checkbox"
+               ng-model="vm.selectedFiles[file]" />
+               <div class="file-info">
+          <span class="file-name">{{ file }}</span>
+        </div>
+</label>
+ 
+
+          </div>
+        </div>
+
         <div class="ask-row">
             <input
               type="text"

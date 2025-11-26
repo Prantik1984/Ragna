@@ -14,7 +14,7 @@
       vm.chatdocument="";
       vm.chatResult="";
       vm.loadingMessage="";
-
+      vm.uploadedFiles=[]
       vm.navItems = [
         { id: "home", label: "Home", icon: "🏠" },
         { id: "upload", label: "Upload Document", icon: "📤" },
@@ -97,6 +97,35 @@
 
       vm.setActive = function (id) {
         vm.activePage = id;
+        switch(vm.activePage)
+        {
+          case "chat":
+            {
+              vm.isUploading=true;
+              vm.loadingMessage="Fetching documents...";
+
+              $http.get("http://127.0.0.1:9000/listdocuments")
+          .then(function (response) {
+            vm.isUploading=false;
+            if(response.data.Error)
+            {
+              vm.errorMessage=response.data.Error;
+              return;
+            }
+            else
+            {
+             vm.uploadedFiles=response.data.Sources;
+             console.log(vm.uploadedFiles);   
+            }
+          })
+          .catch(function (error) {
+            vm.isUploading=false;
+      vm.errorMessage=error;
+      console.error("Error:", error);        
+          });
+              break;
+            }
+        }
       };
 
       vm.exampleClick = function (q) {
