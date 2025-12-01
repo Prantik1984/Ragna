@@ -415,5 +415,12 @@ body {
 /* File size styling */
 .file-size {
   font-size:
+}
 
-
+.file-checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4f46e5;
+  flex-shrink: 0;
+}

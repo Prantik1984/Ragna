@@ -95,6 +95,27 @@
         { name: "Policy_Overview.txt", date: "Mar 5, 2024", citations: 3 }
       ];
 
+      vm.selectQueryAbleFile=function(docName){
+        
+        for(const doc of vm.uploadedFiles)
+        {
+          doc.IsChecked=doc.Document==docName;
+          
+          
+        }
+        vm.selectedQueryFile = docName;
+        // return false;
+        // vm.selectedQueryFile = docName;
+        // console.log(docName);
+        // for(const doc of vm.uploadedFiles)
+        // {
+        //   doc.IsChecked=doc.Document==docName;
+        //   return true;
+          
+        // }
+        // return false;
+      }
+
       vm.setActive = function (id) {
         vm.activePage = id;
         switch(vm.activePage)
@@ -114,8 +135,18 @@
             }
             else
             {
-             vm.uploadedFiles=response.data.Sources;
-             console.log(vm.uploadedFiles);   
+              vm.uploadedFiles=[];
+              var cnt=0;
+              for(const doc of response.data.Sources)
+              {
+                vm.uploadedFiles.push({
+                  "Document":doc,
+                  "IsChecked":cnt==0
+                });
+                cnt++;
+              }
+             //vm.uploadedFiles=response.data.Sources;
+             //console.log(vm.uploadedFiles);   
             }
           })
           .catch(function (error) {

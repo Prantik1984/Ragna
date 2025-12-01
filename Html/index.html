@@ -138,15 +138,20 @@
         <h1 class="page-title">Chat</h1>
         
         <div class="file-list-container">
-          <h3 class="section-title">Select Files to bring in context</h3>
+          <h3 class="section-title">Select File to ask question</h3>
 
           <div class="file-row" ng-repeat="file in vm.uploadedFiles">
 <label class="file-checkbox-row">
-  <input type="checkbox"
+  <input type="checkbox" ng-click="vm.selectQueryAbleFile(file.Document)"/>
+  <!-- <input type="checkbox"
+       ng-checked="vm.selectedFileName === file.Document"
+       ng-click="$event.preventDefault(); vm.selectFileItem(file.name)" /> -->
+       <span class="file-name">{{ file.Document }}</span>
+  <!-- <input type="checkbox"
                ng-model="vm.selectedFiles[file]" />
                <div class="file-info">
           <span class="file-name">{{ file }}</span>
-        </div>
+        </div> -->
 </label>
  
 
