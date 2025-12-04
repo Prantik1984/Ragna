@@ -25,11 +25,11 @@ class ChromaProcessor:
             return {"Error": str(e),"Sources":None}
 
 
-    def SaveToDb(self,chunks,filename):
+    def SaveToDb(self,chunks):
         PERSIST_DIR = self.db_path
         client = chromadb.PersistentClient(path=PERSIST_DIR)
         embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
+            model_name=os.getenv("MODEL_NAME")
         )
         collection=client.get_or_create_collection(
             name="pdf_uploads",
