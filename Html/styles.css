@@ -424,3 +424,11 @@ body {
   accent-color: #4f46e5;
   flex-shrink: 0;
 }
+
+.file-checkbox-row input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4f46e5; /* same as before */
+  flex-shrink: 0;
+}

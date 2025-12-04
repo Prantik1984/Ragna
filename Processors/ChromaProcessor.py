@@ -29,7 +29,7 @@ class ChromaProcessor:
         PERSIST_DIR = self.db_path
         client = chromadb.PersistentClient(path=PERSIST_DIR)
         embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="llama3.2"
+            model_name="all-MiniLM-L6-v2"
         )
         collection=client.get_or_create_collection(
             name="pdf_uploads",
@@ -47,11 +47,10 @@ class ChromaProcessor:
         )
 
     def QueryDb(self,query,document):
-
         PERSIST_DIR = self.db_path
         client = chromadb.PersistentClient(path=PERSIST_DIR)
         embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="llama3.2"
+            model_name="all-MiniLM-L6-v2"
 
         )
         collection = client.get_collection(
@@ -61,7 +60,7 @@ class ChromaProcessor:
 
         results = collection.query(
             query_texts=[query],
-            n_results=3,
+            n_results=5,
             where={"source": document},
         )
 
@@ -71,24 +70,51 @@ class ChromaProcessor:
             context = "No relevant information found in the document."
 
         response=self.generate_response(query,context)
+
         return response
 
     def generate_response(self,query,context):
         try:
-            prompt = f"""
-            Based on the following context, please answer the question.
-            If you can't find the answer in the context, say so, or I don't know.
-            
-            Context: {context}
-            
-            Question: {query}
-            
+            user_msg = {
+                "role": "user",
+                "content": f"""
+            You are given some context from documents and a user question.
+
+            CONTEXT:
+            \"\"\" 
+            {context}
+            \"\"\"
+
+            QUESTION:
+            {query}
+
+            INSTRUCTIONS:
+            - Answer the question using ONLY the information in CONTEXT.
+            - It is allowed to paraphrase or combine sentences from the context.
+            - If the answer cannot be reasonably inferred from the context, reply exactly:
+              "I don't know based on the provided documents."
+            - Do not use any outside knowledge.
+            - Do not guess beyond what can be inferred from the context..
+
             Answer:
-            
-            """
+            """,
+            }
+
+            system_msg = {
+                "role": "system",
+                "content": (
+                    "You are a helpful assistant that answers questions based ONLY on the provided context.\n"
+                    "You may rephrase, summarize, or logically infer answers as long as they are clearly supported by the context.\n"
+                    "If the answer cannot be reasonably inferred from the context, say:"
+                    "\"I don't know based on the provided documents.\"\n"
+                    "- Do NOT use any outside knowledge.\n"
+                    "- Do NOT invent facts."
+                ),
+            }
+
             messages = [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt},
+                system_msg,
+                user_msg,
             ]
 
             llmmodel=LLMModel()

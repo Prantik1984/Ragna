@@ -15,6 +15,7 @@
       vm.chatResult="";
       vm.loadingMessage="";
       vm.uploadedFiles=[]
+      vm.selectedQueryFile=null;
       vm.navItems = [
         { id: "home", label: "Home", icon: "🏠" },
         { id: "upload", label: "Upload Document", icon: "📤" },
@@ -95,26 +96,26 @@
         { name: "Policy_Overview.txt", date: "Mar 5, 2024", citations: 3 }
       ];
 
-      vm.selectQueryAbleFile=function(docName){
+      // vm.selectQueryAbleFile=function(docName){
         
-        for(const doc of vm.uploadedFiles)
-        {
-          doc.IsChecked=doc.Document==docName;
+      //   // for(const doc of vm.uploadedFiles)
+      //   // {
+      //   //   doc.IsChecked=doc.Document==docName;
           
           
-        }
-        vm.selectedQueryFile = docName;
-        // return false;
-        // vm.selectedQueryFile = docName;
-        // console.log(docName);
-        // for(const doc of vm.uploadedFiles)
-        // {
-        //   doc.IsChecked=doc.Document==docName;
-        //   return true;
+      //   // }
+      //   // vm.selectedQueryFile = docName;
+      //   // return false;
+      //   // vm.selectedQueryFile = docName;
+      //   // console.log(docName);
+      //   // for(const doc of vm.uploadedFiles)
+      //   // {
+      //   //   doc.IsChecked=doc.Document==docName;
+      //   //   return true;
           
-        // }
-        // return false;
-      }
+      //   // }
+      //   // return false;
+      // }
 
       vm.setActive = function (id) {
         vm.activePage = id;
@@ -170,7 +171,7 @@
         }
         
         var payload = {
-    document: vm.chatdocument+".pdf",
+    document: vm.selectedQueryFile,
     question: vm.currentQuestion
   };
   vm.isUploading=true;
